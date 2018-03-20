@@ -18,7 +18,6 @@ class Transform {
   }
 
 
-  }
   static Map mapFromBodyJson(def map){
     Map newMap = [:]
     map.each{ k, v ->
