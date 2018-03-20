@@ -1,5 +1,6 @@
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.eventbus.EventBus
+import Ticket
 
 class Buyer extends AbstractVerticle {
 
@@ -8,8 +9,9 @@ class Buyer extends AbstractVerticle {
     EventBus eb = vertx.eventBus();
     super.start()
     println "Init Buyer"
-    vertx.setPeriodic(1000, { v ->
-      eb.send("com.ticket.office", [status:"view", id:"2"]){ reply ->
+    Ticket ticket = new Ticket(status: "view", place:"1L")
+  //  vertx.setPeriodic(1000, { v ->
+      eb.send("com.ticket.office", ticket){ reply ->
         if(reply.succeeded()){
           println "Hizo una compra....."
         }
@@ -17,6 +19,6 @@ class Buyer extends AbstractVerticle {
           println "No reply"
         }
       }
-    })
+ //   })
   }
 }
