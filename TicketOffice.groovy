@@ -9,7 +9,7 @@ class TicketOffice extends AbstractVerticle {
     EventBus eb = vertx.eventBus();
     super.start()
     println "Init Ticket Office"
-    eb.consumer("ticketOffice"){ message ->
+    eb.consumer("com.ticket.office"){ message ->
       println("Received message: ${message.body()}")
       // Now send back reply
       message.reply("pong!")
