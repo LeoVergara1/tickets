@@ -12,7 +12,7 @@ class Buyer extends AbstractVerticle {
     EventBus eb = vertx.eventBus();
     super.start()
     println "Init Buyer"
-    Ticket ticket = new Ticket(status: "view", place:"2L")
+    Ticket ticket = new Ticket(status: "bought", place:"2L")
     def jsonTicket = Transform.getJsonObjectFromClass(ticket)
   //  vertx.setPeriodic(1000, { v ->
       eb.send("com.ticket.office", jsonTicket){ reply ->
@@ -25,8 +25,16 @@ class Buyer extends AbstractVerticle {
       }
  //   })
 
-    eb.consumer("com.ticket.status"){ message ->
-      println "Usuarios con el mismo lugar: "
+    eb.consumer("com.ticket.status.${ticket.place}"){ message ->
+      println message.body()
     }
+  }
+
+  @Override
+  void stop() throws Exception {
+    def sd = vertx.sharedData
+    def result = sd.getLocalMap("result")
+    JsonArray places = result.placesInVeiw
+    places.remove("2L")
   }
 }

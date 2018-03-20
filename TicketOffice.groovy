@@ -28,8 +28,12 @@ class TicketOffice extends AbstractVerticle {
       println result.placesInVeiw.dump()
       println("Received message: ${message.body()}")
 
-      // Now send back reply
+      if(message.body().status == "bought"){
+        eb.send("com.ticket.status.${message.body().place}", "Compraron tu boleto")
+      }
     }
+
+
   }
 
 
