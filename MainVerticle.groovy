@@ -30,7 +30,7 @@ def opts = [
 def ebHandler = SockJSHandler.create(vertx).bridge(opts)
 
 router.route("/eventbus/*").handler(ebHandler)
-router.route("/static/*").handler(StaticHandler.create().setCachingEnabled(false))
+router.route().handler(StaticHandler.create().setCachingEnabled(false))
 
 Integer counter = 0
 
