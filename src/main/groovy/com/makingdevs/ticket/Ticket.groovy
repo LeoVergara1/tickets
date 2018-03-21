@@ -1,3 +1,5 @@
+package com.makingdevs.ticket
+
 class Ticket implements Serializable {
 
   String name

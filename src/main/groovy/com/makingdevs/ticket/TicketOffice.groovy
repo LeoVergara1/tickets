@@ -1,3 +1,5 @@
+package com.makingdevs.ticket
+
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.eventbus.EventBus
 import io.vertx.core.json.JsonArray
