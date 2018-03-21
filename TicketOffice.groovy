@@ -16,6 +16,11 @@ class TicketOffice extends AbstractVerticle {
     super.start()
     println "Init Ticket Office"
     eb.consumer("com.ticket.office"){ message ->
+      def placeCurrent = sd.getLocalMap("${message.body().place}")  
+      (placeCurrent.count) ? (placeCurrent.count +=1) : (placeCurrent.count = 0)
+      JsonArray process = placeCurrent.process
+      process.add(message.body().processId)
+      placeCurrent.process = process 
       JsonArray places = result.placesInVeiw
       places.add(message.body().place)
       if(result.placesInVeiw.contains(message.body().place)){
@@ -29,7 +34,9 @@ class TicketOffice extends AbstractVerticle {
       println("Received message: ${message.body()}")
 
       if(message.body().status == "bought"){
-        eb.send("com.ticket.status.${message.body().place}", "Compraron tu boleto")
+        placeCurrent.process.each{
+          eb.send("com.ticket.status.${it}", "Compraron tu boleto")
+        }
       }
     }
 

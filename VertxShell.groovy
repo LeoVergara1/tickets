@@ -11,11 +11,10 @@ import io.vertx.core.json.JsonArray
 import io.vertx.ext.shell.*
 import io.vertx.ext.shell.term.*
 
-def service = ShellService.create(vertx,
-new ShellServiceOptions().setTelnetOptions(
-  new TelnetTermOptions().
-  setHost("localhost").
-  setPort(4000)
-)
-);
+def service = ShellService.create(vertx, [
+telnetOptions:[
+  host:"localhost",
+  port:3000
+  ]
+])
 service.start();
