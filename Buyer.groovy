@@ -25,7 +25,12 @@ class Buyer extends AbstractVerticle {
     }
 
     eb.consumer("com.ticket.status.${processId}"){ message ->
+      Ticket ticket = new Ticket(status:"bought", place:message.body(), client: processId)
+      def jsonTicket = Transform.getJsonObjectFromClass(ticket)
       println message.body()
+      eb.send("com.ticket.office.buy", jsonTicket){ reply ->
+        println reply.result().body()
+      }
     }
   }
 
