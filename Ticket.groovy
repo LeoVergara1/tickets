@@ -6,5 +6,6 @@ class Ticket implements Serializable {
   String function
   String status
   String place
+  String client
 
 }

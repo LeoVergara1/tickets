@@ -18,9 +18,10 @@ class TicketOffice extends AbstractVerticle {
     println "Init Ticket Office"
     eb.consumer("com.ticket.office"){ message ->
       def placeCurrent = sd.getLocalMap("${message.body().place}")  
-      (placeCurrent.count) ? (placeCurrent.count +=1) : (placeCurrent.count = 0)
+      placeCurrent.process = new JsonArray()
+      //(placeCurrent.count) ? (placeCurrent.count +=1) : (placeCurrent.count = 0)
       JsonArray process = placeCurrent.process
-      process.add(message.body().processId)
+      process.add(message.body().client)
       placeCurrent.process = process 
       JsonArray places = result.placesInVeiw
       places.add(message.body().place)
@@ -39,6 +40,10 @@ class TicketOffice extends AbstractVerticle {
           eb.send("com.ticket.status.${it}", "Compraron tu boleto")
         }
       }
+    }
+
+    eb.consumer("com.makingdevs.comunicate.back"){ message ->
+      println "holab"
     }
 
 

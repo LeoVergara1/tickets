@@ -11,21 +11,18 @@ class Buyer extends AbstractVerticle {
   void start() throws Exception {
     super.start()
     def processId = Transform.getProcessId()
+    println "Proceso del cliente: ${processId}"
     def sd = vertx.sharedData
     EventBus eb = vertx.eventBus();
     println "Init Buyer"
-    Ticket ticket = new Ticket(status: "bought", place:"2L", id: processId)
-    def jsonTicket = Transform.getJsonObjectFromClass(ticket)
-  //  vertx.setPeriodic(1000, { v ->
+    eb.consumer("com.ticket.init.vew.${processId}"){ message ->
+      println "Inicia proceso de vista con el boleto: ${message.body()}"
+      Ticket ticket = new Ticket(status:"view", place:message.body(), client: processId)
+      def jsonTicket = Transform.getJsonObjectFromClass(ticket)
       eb.send("com.ticket.office", jsonTicket){ reply ->
-        if(reply.succeeded()){
-          println reply.result().body()
-        }
-        else {
-          println "No reply"
-        }
+        println reply.result().body()
       }
- //   })
+    }
 
     eb.consumer("com.ticket.status.${processId}"){ message ->
       println message.body()

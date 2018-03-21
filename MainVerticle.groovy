@@ -22,29 +22,25 @@ import io.vertx.ext.web.handler.sockjs.PermittedOptions
 
 println "Webserver ok"
 
-//Vertx vertx = Vertx.vertx()
+DeploymentOptions opts_1 = new DeploymentOptions()
+opts_1.setWorker(true)
+vertx.deployVerticle("TicketOffice.groovy", opts_1)
 def service = MetricsService.create(vertx)
 def server = vertx.createHttpServer()
 def router = Router.router(vertx)
-def sharedMap = vertx.sharedData().getLocalMap("cards")
-def opts = [
-            outboundPermitteds:[
-              [ address:"com.makingdevs.web.monitor" ]
-              ]
-           ]
 BridgeOptions bridgeOptions = new BridgeOptions()
 bridgeOptions.addInboundPermitted(new PermittedOptions().setAddressRegex("mx.makingdevs.comunicate.*"))
     .addOutboundPermitted(new PermittedOptions().setAddressRegex("mx.makingdevs.comunicate.*"));
 
-def ebHandler = SockJSHandler.create(vertx).bridge(opts)
+def ebHandler = SockJSHandler.create(vertx).bridge(bridgeOptions)
 
 router.route("/eventbus/*").handler(ebHandler)
 router.route().handler(StaticHandler.create().setCachingEnabled(false))
 
 Integer counter = 0
 
-vertx.setPeriodic(1000){ t ->
-  println "Enviando a web monitor"
+vertx.setPeriodic(30000){ t ->
+  println "Trabajando.."
   vertx.eventBus().send("com.makingdevs.web.monitor", counter)
   counter++
 }
@@ -58,7 +54,4 @@ new ShellServiceOptions().setTelnetOptions(
 );
 serviceShell.start();
 
-DeploymentOptions opts_1 = new DeploymentOptions()
-opts_1.setWorker(true)
-vertx.deployVerticle(new TicketOffice(), opts_1)
 server.requestHandler(router.&accept).listen(8080)
