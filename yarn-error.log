@@ -1,0 +1,50 @@
+Arguments: 
+  /usr/local/Cellar/node/9.8.0/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js install
+
+PATH: 
+  /Users/brandonvergara/.sdkman/candidates/vertx/current/bin:/Users/brandonvergara/.sdkman/candidates/gradle/current/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/brandonvergara/.sdkman/candidates/groovy/current/bin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  9.8.0
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  {
+    "name": "tickets",
+    "version": "1.0.0",
+    "description": "ticket-office",
+    "main": "index.js",
+    "repository": "git@github.com:LeoVergara1/tickets.git",
+    "license": "MIT"
+  
+    "dependencies": {
+      "bootstrap": "^3.3.7",
+      "director": "^1.2.8",
+      "handlebars": "^4.0.8",
+      "components-font-awesome": "^4.7.0",
+      "jquery-validation": "^1.17.0",
+      "jquery-file-download": "^1.4.6",
+      "vertx3-eventbus-client": "*",
+      "sockjs-client": "~1.1.4"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  SyntaxError: /Users/brandonvergara/ProjectsMakingdevs/tickets/package.json: Unexpected string in JSON at position 181
+      at JSON.parse (<anonymous>)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:1036:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:98:30)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:109:13
+      at <anonymous>
