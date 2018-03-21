@@ -1,36 +1,29 @@
 'use strict';
 
 var DirectorController = (function(){
-     var selectors = {
-         datepicker:'#datepicker',
-         datepicker1:'#datepicker1'
-    },
-    bindEvents = function bindEvents(){
-         console.log("Satrt bindEvents");
-         $(selectors.datepicker).datepicker({
-              setDate: new Date(),
-              dateFormat: 'dd-mm-yy'
-         });
-         $( "#datepickerQuotation" ).datepicker({
-             setDate: new Date(),
-             dateFormat: 'dd/mm/yy'
-        });
-         $(selectors.datepicker1).datepicker({
-              dateFormat: 'dd-mm-yy'
-        });
-         $(selectors.datepicker).datepicker('setDate', new Date());
-    };
-
+    var routes;
     var start = function(){
-    console.log("Start controller js");
-    bindEvents();
-
+    console.log("Start controller director js");
+    routes = {
+        '/buy/?([^\/]*)\/?': console.log("Comprando"),
+        '/view/?([^\/]*)\/?': console.log("Viendo")
+      };
+      return urlMappings()
     };
+
+    var urlMappings = function (){
+        var router;
+        router = new Router(routes);
+        console.log("Iniciando rutas")
+        return router.init();
+        
+    };
+
     return{
          start:start
     }
 
 }());
 jQuery(function($){
-  QuotationController.start();
+    DirectorController.start();
 });

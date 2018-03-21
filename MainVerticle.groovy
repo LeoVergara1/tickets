@@ -13,6 +13,12 @@ import io.vertx.ext.web.Router
 import io.vertx.core.Vertx
 import io.vertx.ext.web.handler.sockjs.SockJSHandler
 import io.vertx.ext.dropwizard.MetricsService
+import io.vertx.core.DeploymentOptions
+import io.vertx.ext.shell.ShellService
+import io.vertx.ext.shell.ShellServiceOptions
+import io.vertx.ext.shell.term.TelnetTermOptions
+import io.vertx.ext.web.handler.sockjs.BridgeOptions
+import io.vertx.ext.web.handler.sockjs.PermittedOptions
 
 println "Webserver ok"
 
@@ -26,6 +32,9 @@ def opts = [
               [ address:"com.makingdevs.web.monitor" ]
               ]
            ]
+BridgeOptions bridgeOptions = new BridgeOptions()
+bridgeOptions.addInboundPermitted(new PermittedOptions().setAddressRegex("mx.makingdevs.comunicate.*"))
+    .addOutboundPermitted(new PermittedOptions().setAddressRegex("mx.makingdevs.comunicate.*"));
 
 def ebHandler = SockJSHandler.create(vertx).bridge(opts)
 
@@ -40,4 +49,16 @@ vertx.setPeriodic(1000){ t ->
   counter++
 }
 
+def serviceShell = ShellService.create(vertx,
+new ShellServiceOptions().setTelnetOptions(
+  new TelnetTermOptions().
+  setHost("localhost").
+  setPort(4000)
+)
+);
+serviceShell.start();
+
+DeploymentOptions opts_1 = new DeploymentOptions()
+opts_1.setWorker(true)
+vertx.deployVerticle(new TicketOffice(), opts_1)
 server.requestHandler(router.&accept).listen(8080)
