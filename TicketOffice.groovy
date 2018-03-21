@@ -18,9 +18,9 @@ class TicketOffice extends AbstractVerticle {
     println "Init Ticket Office"
     eb.consumer("com.ticket.office"){ message ->
       def placeCurrent = sd.getLocalMap("${message.body().place}")  
-      //placeCurrent.process = new JsonArray()
       (placeCurrent.count) ? (placeCurrent.count +=1) : (placeCurrent.count = 0)
-      JsonArray process = placeCurrent.process
+      JsonArray process
+      (placeCurrent.process) ? (process = placeCurrent.process) : (process = new JsonArray()) 
       process.add(message.body().client)
       println "Processos: ${process}"
       placeCurrent.process = process 
@@ -52,8 +52,8 @@ class TicketOffice extends AbstractVerticle {
       println "Se ha comprado el boleto ${message.body().place}"
       def placeCurrent = sd.getLocalMap("${message.body().place}") 
       placeCurrent.process.each{
-
-        println "${clientes: it}"
+        println "cliente: ${it}"
+        eb.send("com.ticket.comunicate.status.${it}", "Compraron tu boleto")
       }
     }
 
