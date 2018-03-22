@@ -1,0 +1,41 @@
+
+import io.vertx.core.AbstractVerticle
+import io.vertx.core.eventbus.EventBus
+import io.vertx.core.DeploymentOptions
+import Ticket
+import Transform
+import io.vertx.core.json.JsonArray
+
+class ComunicateVerticle extends AbstractVerticle {
+
+  @Override
+  void start() throws Exception {
+    super.start()
+    DeploymentOptions opts_1 = new DeploymentOptions()
+    opts_1.setWorker(true)
+    def sd = vertx.sharedData
+    def result = sd.getLocalMap("result")
+    EventBus eb = vertx.eventBus();
+    
+    eb.consumer("com.makingdevs.comunicate.send.view"){ message ->
+      println message.body()
+      println "Estas aquí"
+      def jsonMap = Transform.getJsonFromString(message.body())
+      vertx.deployVerticle("Buyer.groovy", opts_1) { resultVerticle ->
+        if(resultVerticle.succeeded()){
+          println("The verticle has been deployed, deployment ID is " + resultVerticle.result())
+          eb.send("com.ticket.init.vew.${resultVerticle.result()}", jsonMap)
+          eb.publish("com.makingdevs.comunicate.response.${jsonMap.processId}", resultVerticle.result())
+        }
+        else{
+          resultVerticle.cause().printStackTrace()
+        }
+      }
+    }
+  }
+
+  @Override
+  void stop() throws Exception {
+   
+  }
+}
