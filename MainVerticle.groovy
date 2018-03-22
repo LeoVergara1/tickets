@@ -24,7 +24,9 @@ println "Webserver ok"
 
 DeploymentOptions opts_1 = new DeploymentOptions()
 opts_1.setWorker(true)
+opts_1.setInstances(10)
 vertx.deployVerticle("TicketOffice.groovy", opts_1)
+vertx.deployVerticle("ComunicateVerticle.groovy", opts_1)
 
 def service = MetricsService.create(vertx)
 def server = vertx.createHttpServer()
