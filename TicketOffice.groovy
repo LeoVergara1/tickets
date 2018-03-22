@@ -27,10 +27,10 @@ class TicketOffice extends AbstractVerticle {
       JsonArray places = result.placesInVeiw
       places.add(message.body().place)
       if(result.placesInVeiw.contains(message.body().place)){
-        message.reply("Tu lugar es visto por alguien más")
+        message.reply([message:"Tu lugar es visto por alguien más", count: process.size()])
       }
       else {
-        message.reply("Eres el primero viendo el lugar")
+        message.reply([message:"Eres el primero viendo el lugar" , count: process.size()])
       }
       result.placesInVeiw = places
       println result.placesInVeiw.dump()
