@@ -32,5 +32,10 @@ class Transform {
     jsonMap
   }
 
+  static def getMapFromString(String message){
+    def json = getJsonFromString(message)
+    mapFromBodyJson(json)
+  }
+
 }
 

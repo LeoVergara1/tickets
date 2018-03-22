@@ -35,11 +35,13 @@ class ComunicateVerticle extends AbstractVerticle {
     eb.consumer("com.makingdevs.comunicate.send.buy"){ message ->
       println message.body()
       println "Comprando...."
-      def jsonMap = Transform.getJsonFromString(message.body())
+      def jsonMap = Transform.getMapFromString(message.body())
       eb.send("com.ticket.status.${jsonMap.deployMentId}", jsonMap){ reply ->
         if(reply.succeeded()){
           println "Respuesta: ${reply.result().body()} "
-          eb.publish("com.makingdevs.comunicate.info.buy.${reply.result().body().place}", reply.result().body())
+          def response = Transform.mapFromBodyJson(reply.result().body())
+          response.put("clientBuy","${jsonMap.processId}")
+          eb.publish("com.makingdevs.comunicate.info.buy.${reply.result().body().place}", response )
         }
       }
     }

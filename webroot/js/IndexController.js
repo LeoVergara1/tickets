@@ -76,8 +76,17 @@ var IndexController = (function(){
       var varticleManagerInfo = VerticleManager.getInstance();
       onSucces = (msg) => {
         console.log(`Status: ${msg}`)
+        console.log(msg)
         console.log("Boleto Comprado")
-        $.notify("Compraron tu boleto");
+        console.log(msg.clientBuy)
+        console.log(process)
+        if(msg.clientBuy === `${process}`){
+          console.log("El compro el boleto************")
+          $.notify("Compra exitosa", "info");
+        }
+        else {
+          $.notify("Compraron tu boleto");
+        }
         $("#buttonBuy").hide()
       };
       varticleManagerInfo.consumer(`com.makingdevs.comunicate.info.buy.${ticket}`, onSucces)
