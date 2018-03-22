@@ -36,7 +36,12 @@ class ComunicateVerticle extends AbstractVerticle {
       println message.body()
       println "Comprando...."
       def jsonMap = Transform.getJsonFromString(message.body())
-      eb.send("com.ticket.status.${jsonMap.deployMentId}", jsonMap)
+      eb.send("com.ticket.status.${jsonMap.deployMentId}", jsonMap){ reply ->
+        if(reply.succeeded()){
+          println "Respuesta: ${reply.result().body()} "
+          eb.publish("com.makingdevs.comunicate.info.buy.${reply.result().body().place}", reply.result().body())
+        }
+      }
     }
     
   }

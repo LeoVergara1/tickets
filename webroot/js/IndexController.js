@@ -14,7 +14,7 @@ var IndexController = (function(){
     var bindEvents = ()=> {
       viewTicket();
       selectPlace();
-      statusTicket();
+      
     };
 
     var selectPlace = () => {
@@ -25,6 +25,7 @@ var IndexController = (function(){
         let ticket = $('#sel1 option:selected').val()
         console.log(`Boleto seleccionado: ${ticket}`)
         informationTicket(ticket)
+        statusTicket(ticket);
         varticleManagerSend.send("com.makingdevs.comunicate.send.view", `{ \"ticket\": \"${ticket}\", \"processId\": \"${process}\"}`)
       })
       
@@ -48,14 +49,15 @@ var IndexController = (function(){
       varticleManager.consumer(`com.makingdevs.comunicate.response.${process}`, onSucces)
     };
     
-    var statusTicket = ()=> {
+    var statusTicket = (ticket)=> {
       var onSucces;
       var varticleManagerStatus = VerticleManager.getInstance();
       onSucces = (msg) => {
-        $("#information").text(msg)
+        $("#information").text(msg.status)
+        $("#informationCounter").text(msg.count)
         return $(`#${msg.idDeploy}`).text(msg.number);
       };
-      varticleManagerStatus.consumer(`com.makingdevs.comunicate.info.${process}`, onSucces)
+      varticleManagerStatus.consumer(`com.makingdevs.comunicate.info.${ticket}`, onSucces)
     };
 
     var informationTicket= (ticket) => {
@@ -63,10 +65,10 @@ var IndexController = (function(){
       var varticleManagerInfo = VerticleManager.getInstance();
       onSucces = (msg) => {
         console.log(`Status: ${msg}`)
-        $("#informationCounter").text(msg)
-        return $(`#${msg}`).text(msg);
+        console.log("Boleto Comprado")
+        $("#buttonBuy").hide()
       };
-      varticleManagerInfo.consumer(`com.makingdevs.comunicate.info.counter.${ticket}`, onSucces)
+      varticleManagerInfo.consumer(`com.makingdevs.comunicate.info.buy.${ticket}`, onSucces)
 
     };
     return{
