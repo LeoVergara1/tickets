@@ -25,12 +25,14 @@ println "Webserver ok"
 DeploymentOptions opts_1 = new DeploymentOptions()
 opts_1.setWorker(true)
 vertx.deployVerticle("TicketOffice.groovy", opts_1)
+
 def service = MetricsService.create(vertx)
 def server = vertx.createHttpServer()
 def router = Router.router(vertx)
+
 BridgeOptions bridgeOptions = new BridgeOptions()
-bridgeOptions.addInboundPermitted(new PermittedOptions().setAddressRegex("mx.makingdevs.comunicate.*"))
-    .addOutboundPermitted(new PermittedOptions().setAddressRegex("mx.makingdevs.comunicate.*"));
+bridgeOptions.addInboundPermitted(new PermittedOptions().setAddressRegex("com.makingdevs.comunicate.*"))
+    .addOutboundPermitted(new PermittedOptions().setAddressRegex("com.makingdevs.comunicate.*"));
 
 def ebHandler = SockJSHandler.create(vertx).bridge(bridgeOptions)
 

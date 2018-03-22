@@ -13,7 +13,7 @@ var DirectorController = (function(){
 
     var urlMappings = function (){
         var router;
-        router = new Router(routes);
+        router = Router(routes);
         console.log("Iniciando rutas")
         return router.init();
         
