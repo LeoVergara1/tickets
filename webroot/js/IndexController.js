@@ -15,6 +15,7 @@ var IndexController = (function(){
 
     var bindEvents = ()=> {
       $("#buttonCancel").hide()
+      $("#buttonBuy").hide()
       viewTicket();
       selectPlace();
       
@@ -32,6 +33,7 @@ var IndexController = (function(){
         console.log("Siempre regresa")
         $("#buttonCancel").show()
         varticleManagerSend.send("com.makingdevs.comunicate.send.view", `{ \"ticket\": \"${ticket}\", \"processId\": \"${process}\"}`)
+        $("#buttonBuy").show()
       })
       
       $("#buttonBuy").on("click" , () => {
@@ -48,7 +50,11 @@ var IndexController = (function(){
       $("#buttonCancel").on("click", () =>{
         console.log("Liberando compra")
         let ticket = $('#sel1 option:selected').val()
-        varticleManagerSend.send("com.makingdevs.comunicate.send.cancel", `{ \"ticket\": \"${ticket}\", \"processId\": \"${process}\"}`)
+        varticleManagerSend.send("com.makingdevs.comunicate.send.cancel", `{ \"ticket\": \"${ticket}\", \"processId\": \"${process}\", \"deployMentId\" : \"${deployMentId}\"}`)
+        $("#buttonView").show()
+        $('#sel1').prop('disabled', false);
+        $('#buttonCancel').hide()
+        $("#buttonBuy").hide()
       })
     };
     var sleep = (ms) =>{
