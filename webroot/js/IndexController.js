@@ -3,6 +3,7 @@
 var IndexController = (function(){
   var varticleManagerSend 
   var process = Math.floor((Math.random() * 10000) + 1);
+  var deployMentId
   console.log(`Proceso: ${process}`)
     var start = () => {
     varticleManagerSend = VerticleManager.getInstance();
@@ -13,6 +14,7 @@ var IndexController = (function(){
     var bindEvents = ()=> {
       viewTicket();
       selectPlace();
+      statusTicket();
     };
 
     var selectPlace = () => {
@@ -25,6 +27,13 @@ var IndexController = (function(){
         informationTicket(ticket)
         varticleManagerSend.send("com.makingdevs.comunicate.send.view", `{ \"ticket\": \"${ticket}\", \"processId\": \"${process}\"}`)
       })
+      
+      $("#buttonBuy").on("click" , () => {
+        console.log("Click buton comprar")
+        let ticket = $('#sel1 option:selected').val()
+        console.log(`Boleto seleccionado: ${ticket}`)
+        varticleManagerSend.send("com.makingdevs.comunicate.send.buy", `{ \"ticket\": \"${ticket}\", \"processId\": \"${process}\" , \"deployMentId\" : \"${deployMentId}\" }`)
+      })
     };
 
     var viewTicket = ()=> {
@@ -33,21 +42,22 @@ var IndexController = (function(){
       onSucces = (msg) => {
         $("#buttonView").hide()
         $('#sel1').prop('disabled', true);
+        deployMentId = msg.deployMentId
         return $(`#${msg.idDeploy}`).text(msg.number);
       };
       varticleManager.consumer(`com.makingdevs.comunicate.response.${process}`, onSucces)
     };
-
-    var viewTicket = ()=> {
+    
+    var statusTicket = ()=> {
       var onSucces;
-      var varticleManagerInfo = VerticleManager.getInstance();
+      var varticleManagerStatus = VerticleManager.getInstance();
       onSucces = (msg) => {
-        console.log(`Status: ${msg}`)
         $("#information").text(msg)
-        return $(`#${msg}`).text(msg);
+        return $(`#${msg.idDeploy}`).text(msg.number);
       };
-      varticleManagerInfo.consumer(`com.makingdevs.comunicate.info.${process}`, onSucces)
+      varticleManagerStatus.consumer(`com.makingdevs.comunicate.info.${process}`, onSucces)
     };
+
     var informationTicket= (ticket) => {
       var onSucces;
       var varticleManagerInfo = VerticleManager.getInstance();

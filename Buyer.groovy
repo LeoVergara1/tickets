@@ -21,7 +21,7 @@ class Buyer extends AbstractVerticle {
       def jsonTicket = Transform.getJsonObjectFromClass(ticket)
       eb.send("com.ticket.office", jsonTicket){ reply ->
         println reply.result().body()
-        eb.send("com.makingdevs.comunicate.info.${message.body().processId}", reply.result().body())
+        eb.publish("com.makingdevs.comunicate.info.${message.body().processId}", reply.result().body())
       }
     }
 
@@ -30,7 +30,7 @@ class Buyer extends AbstractVerticle {
       def jsonTicket = Transform.getJsonObjectFromClass(ticket)
       println message.body()
       eb.send("com.ticket.office.buy", jsonTicket){ reply ->
-        println reply.result().body()
+        
       }
     }
   }

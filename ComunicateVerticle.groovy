@@ -25,13 +25,20 @@ class ComunicateVerticle extends AbstractVerticle {
         if(resultVerticle.succeeded()){
           println("The verticle has been deployed, deployment ID is " + resultVerticle.result())
           eb.send("com.ticket.init.vew.${resultVerticle.result()}", jsonMap)
-          eb.publish("com.makingdevs.comunicate.response.${jsonMap.processId}", resultVerticle.result())
+          eb.publish("com.makingdevs.comunicate.response.${jsonMap.processId}", [ deployMentId :resultVerticle.result()])
         }
         else{
           resultVerticle.cause().printStackTrace()
         }
       }
     }
+    eb.consumer("com.makingdevs.comunicate.send.buy"){ message ->
+      println message.body()
+      println "Comprando...."
+      def jsonMap = Transform.getJsonFromString(message.body())
+      eb.send("com.ticket.status.${jsonMap.deployMentId}", jsonMap)
+    }
+    
   }
 
   @Override
