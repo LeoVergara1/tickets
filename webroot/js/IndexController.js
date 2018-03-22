@@ -4,16 +4,19 @@ var IndexController = (function(){
   var varticleManagerSend 
   var process = Math.floor((Math.random() * 10000) + 1);
   var deployMentId
+  var firtsTicket = "L1"
   console.log(`Proceso: ${process}`)
     var start = () => {
     varticleManagerSend = VerticleManager.getInstance();
     console.log("Start index controller  js EMC6s");
-     bindEvents() 
+    statusTicket(firtsTicket)
+    bindEvents() 
     };
 
     var bindEvents = ()=> {
       viewTicket();
       selectPlace();
+      
       
     };
 
@@ -25,7 +28,7 @@ var IndexController = (function(){
         let ticket = $('#sel1 option:selected').val()
         console.log(`Boleto seleccionado: ${ticket}`)
         informationTicket(ticket)
-        statusTicket(ticket);
+        console.log("Siempre regresa")
         varticleManagerSend.send("com.makingdevs.comunicate.send.view", `{ \"ticket\": \"${ticket}\", \"processId\": \"${process}\"}`)
       })
       
@@ -35,6 +38,14 @@ var IndexController = (function(){
         console.log(`Boleto seleccionado: ${ticket}`)
         varticleManagerSend.send("com.makingdevs.comunicate.send.buy", `{ \"ticket\": \"${ticket}\", \"processId\": \"${process}\" , \"deployMentId\" : \"${deployMentId}\" }`)
       })
+      $("#sel1").on("change", () => {
+        console.log("Deploy consumer")
+        let ticket = $('#sel1 option:selected').val()
+        statusTicket(ticket);
+      })
+    };
+    var sleep = (ms) =>{
+      return new Promise(resolve => setTimeout(resolve, ms));
     };
 
     var viewTicket = ()=> {
@@ -66,6 +77,7 @@ var IndexController = (function(){
       onSucces = (msg) => {
         console.log(`Status: ${msg}`)
         console.log("Boleto Comprado")
+        $.notify("Compraron tu boleto");
         $("#buttonBuy").hide()
       };
       varticleManagerInfo.consumer(`com.makingdevs.comunicate.info.buy.${ticket}`, onSucces)
