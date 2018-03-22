@@ -44,7 +44,7 @@ class TicketOffice extends AbstractVerticle {
     }
 
     eb.consumer("com.makingdevs.comunicate.back"){ message ->
-      println "holab"
+      println "conusmer test to comunicate from front"
     
     }
 
