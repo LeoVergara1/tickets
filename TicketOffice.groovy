@@ -58,13 +58,14 @@ class TicketOffice extends AbstractVerticle {
     }
 
     eb.consumer("com.ticket.cancel"){ message ->
-      println "Se ha comprado el boleto ${message.body().place}"
+      println "Se ha liberado  el boleto ${message.body().place}"
       def placeCurrent = sd.getLocalMap("${message.body().place}") 
       JsonArray process = placeCurrent.process
-      process.remove(${message.body().client})
+      process.remove(message.body().client)
       placeCurrent.process = process
-      vertx.undeploy(${message.body().client})
-      eb.publish("com.makingdevs.comunicate.info.${message.body().ticket}", [status: "Fuera...", count: placeCurrent.process.size()])
+      println "Cliente a quitar: ${message.body().client}"
+      vertx.undeploy(message.body().client)
+      eb.publish("com.makingdevs.comunicate.info.${message.body().ticket}", [status: "Liberaste el boleto", count: placeCurrent.process.size()])
     }
 
 
