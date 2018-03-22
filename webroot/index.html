@@ -1,25 +1,81 @@
 <html>
-  <head>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
-    <meta http-equiv="Pragma" content="no-cache"/>
-    <meta http-equiv="Expires" content="0"/>
-    <link href="css/style.css" rel="stylesheet">
-    <link href="./third-party/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-  </head>
-  <body>
-    <br>
-    <h2 class="font" align="center">Ticket Office</h2>
-    <div class="center">
+
+<head>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link href="css/style.css" rel="stylesheet">
+  <link href="./third-party/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+  <br>
+  <h2 class="font" align="center">Ticket Office</h2>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="col-sm-offset-2">
+        <img src="./images/header.jpg" alt="Smiley face">
+      </div>
     </div>
-  </body>
-  <!-- Js Generals -->
-  <script src="third-party/jquery/dist/jquery.js"></script>
-  <script src="./third-party/director/build/director.js"></script>
-  <script src="./third-party/bootstrap/dist/js/bootstrap.js"></script>
-  <script src="./third-party/sockjs-client/dist/sockjs.js"></script>
-  <script src="./third-party/vertx3-eventbus-client/vertx-eventbus.js"></script>
-  <!--My js -->
-  <script src="./js/DirectorController.js"></script>
-  <script src="./js/VerticleManager.js"></script>
-  <script src="./js/IndexController.js"></script>
+  </div>
+  <br/>
+  <br/>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="col-lg-6">
+          <div class="row">
+            <label for=""> Selecciona un aciento</label>
+            <select class="form-control" id="sel1">
+              <option>L1</option>
+              <option>L2</option>
+              <option>L3</option>
+              <option>L4</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <label for="">Demanda del boleto</label>
+          <div class="col-lg-12">
+            <div class="col-lg-6">
+              <div class="row">
+                <label for=""> Boleto: </label>
+                <p id="information">Información</p>
+              </div>
+              <div class="row">
+                <label for=""> Personas viendo el mismo boleto: </label>
+                <p id="information">Información</p>
+              </div>
+            </div>
+            <div class="col-lg-6">
+
+            </div>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-3">
+            <button type="button" class="btn btn-primary">Ver Boleto</button>
+          </div>
+          <div class="col-lg-3">
+            <button type="button" class="btn btn-success">Success</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</body>
+<!-- Js Generals -->
+<script src="third-party/jquery/dist/jquery.js"></script>
+<script src="./third-party/director/build/director.js"></script>
+<script src="./third-party/bootstrap/dist/js/bootstrap.js"></script>
+<script src="./third-party/sockjs-client/dist/sockjs.js"></script>
+<script src="./third-party/vertx3-eventbus-client/vertx-eventbus.js"></script>
+<!--My js -->
+<script src="./js/DirectorController.js"></script>
+<script src="./js/VerticleManager.js"></script>
+<script src="./js/IndexController.js"></script>
+<script src="./js/notify.min.js"></script>
+
 </html>
