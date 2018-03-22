@@ -45,6 +45,10 @@ class ComunicateVerticle extends AbstractVerticle {
         }
       }
     }
+
+    eb.consumer("com.makingdevs.comunicate.send.cancel"){ message ->
+      println message.body()
+    }
     
   }
 

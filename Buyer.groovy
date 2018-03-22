@@ -40,7 +40,5 @@ class Buyer extends AbstractVerticle {
   void stop() throws Exception {
     def sd = vertx.sharedData
     def result = sd.getLocalMap("result")
-    JsonArray places = result.placesInVeiw
-    places.remove("2L")
   }
 }
