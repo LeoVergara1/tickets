@@ -18,12 +18,18 @@ class SessionTimeVerticle extends AbstractVerticle {
       long seconds = 10
       def timerID = vertx.setPeriodic(1000, { id ->
         seconds -=1
+        def mapTicket = Transform.mapFromBodyJson(message.body())
+        mapTicket.put("seconds", seconds.toString())
         println "And every second this is printed"
         if (seconds == 0){
           println "Se termino tu tiempo de sesión"
           eb.send("com.ticket.cancel", message.body())
           vertx.cancelTimer(id)
 
+        }
+        else {
+          println "Mesaje al segundero"
+          eb.publish("com.makingdevs.comunicate.time.session.${mapTicket.processId}", mapTicket)
         }
       })
       message.reply(timerID)

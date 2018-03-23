@@ -16,8 +16,9 @@ var IndexController = (function(){
     var bindEvents = ()=> {
       $("#buttonCancel").hide()
       $("#buttonBuy").hide()
-      viewTicket();
-      selectPlace();
+      viewTicket()
+      selectPlace()
+      sessionTime()
       
       
     };
@@ -105,6 +106,16 @@ var IndexController = (function(){
       varticleManagerInfo.consumer(`com.makingdevs.comunicate.info.buy.${ticket}`, onSucces)
 
     };
+
+    var sessionTime = () => {
+      var onSucces;
+      var varticleManagerSessionTime = VerticleManager.getInstance();
+      onSucces = (msg) => {
+        console.log(msg)
+      };
+      varticleManagerSessionTime.consumer(`com.makingdevs.comunicate.time.session.${process}`, onSucces)
+    };
+
     return{
          start:start
     }
