@@ -20,6 +20,7 @@ class SessionTimeVerticle extends AbstractVerticle {
         seconds -=1
         def mapTicket = Transform.mapFromBodyJson(message.body())
         mapTicket.put("seconds", seconds.toString())
+        mapTicket.put("idTimer", id)
         println "And every second this is printed"
         if (seconds == 0){
           println "Se termino tu tiempo de sesión"
