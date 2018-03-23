@@ -65,7 +65,7 @@ class TicketOffice extends AbstractVerticle {
       placeCurrent.process = process
       println "Cliente a quitar: ${message.body().client}"
       vertx.undeploy(message.body().client)
-      eb.publish("com.makingdevs.comunicate.info.${message.body().ticket}", [status: "Liberaste el boleto", count: placeCurrent.process.size()])
+      eb.publish("com.makingdevs.comunicate.info.${message.body().ticket}", [status: "Se liberó un boleto", count: placeCurrent.process.size()])
     }
 
 
