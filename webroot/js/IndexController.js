@@ -4,7 +4,7 @@ var IndexController = (function(){
   var varticleManagerSend 
   var process = Math.floor((Math.random() * 10000) + 1);
   var deployMentId
-  var firtsTicket = "L1"
+  var firtsTicket = "M1"
   console.log(`Proceso: ${process}`)
     var start = () => {
     varticleManagerSend = VerticleManager.getInstance();
