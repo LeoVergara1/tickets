@@ -5,6 +5,7 @@ var IndexController = (function(){
   var process = Math.floor((Math.random() * 10000) + 1);
   var deployMentId
   var firtsTicket = "M1"
+  var idTimer 
   console.log(`Proceso: ${process}`)
     var start = () => {
     varticleManagerSend = VerticleManager.getInstance();
@@ -33,7 +34,7 @@ var IndexController = (function(){
         informationTicket(ticket)
         console.log("Siempre regresa")
         $("#buttonCancel").show()
-        varticleManagerSend.send("com.makingdevs.comunicate.send.view", `{ \"ticket\": \"${ticket}\", \"processId\": \"${process}\"}`)
+        varticleManagerSend.send("com.makingdevs.comunicate.send.view", `{ \"ticket\": \"${ticket}\", \"processId\": \"${process}\"}, \"idTimer\": \"${idTimer}\"`)
         $("#buttonBuy").show()
       })
       
@@ -41,7 +42,9 @@ var IndexController = (function(){
         console.log("Click buton comprar")
         let ticket = $('#sel1 option:selected').val()
         console.log(`Boleto seleccionado: ${ticket}`)
-        varticleManagerSend.send("com.makingdevs.comunicate.send.buy", `{ \"ticket\": \"${ticket}\", \"processId\": \"${process}\" , \"deployMentId\" : \"${deployMentId}\" }`)
+        varticleManagerSend.send("com.makingdevs.comunicate.send.buy", `{ \"ticket\": \"${ticket}\", \"processId\": \"${process}\" , \"deployMentId\" : \"${deployMentId}\", \"idTimer\": \"${idTimer}\" }`)
+        $("#snackbar").removeClass("show")
+        $("#buttonCancel").hide()
       })
       $("#sel1").on("change", () => {
         console.log("Deploy consumer")
@@ -51,11 +54,12 @@ var IndexController = (function(){
       $("#buttonCancel").on("click", () =>{
         console.log("Liberando compra")
         let ticket = $('#sel1 option:selected').val()
-        varticleManagerSend.send("com.makingdevs.comunicate.send.cancel", `{ \"ticket\": \"${ticket}\", \"processId\": \"${process}\", \"deployMentId\" : \"${deployMentId}\"}`)
+        varticleManagerSend.send("com.makingdevs.comunicate.send.cancel", `{ \"ticket\": \"${ticket}\", \"processId\": \"${process}\", \"deployMentId\" : \"${deployMentId}\", \"idTimer\": \"${idTimer}\"}`)
         $("#buttonView").show()
         $('#sel1').prop('disabled', false);
         $('#buttonCancel').hide()
         $("#buttonBuy").hide()
+        $("#snackbar").removeClass("show")
       })
     };
     var sleep = (ms) =>{
@@ -114,6 +118,7 @@ var IndexController = (function(){
         console.log(msg)
         $("#snackbar").addClass("show")
         $("#timeSpan").text(msg.seconds)
+        idTimer = msg.idTimer
         if (msg.seconds === "0") {
           $("#snackbar").removeClass("show")
           $("#buttonBuy").hide()
