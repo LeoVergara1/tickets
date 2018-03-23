@@ -15,7 +15,7 @@ class SessionTimeVerticle extends AbstractVerticle {
     EventBus eb = vertx.eventBus()
     eb.consumer("com.ticket.session.time.${deployId}"){ message ->
       println "Inicia Session time "
-      long seconds = 10
+      long seconds = 20
       def timerID = vertx.setPeriodic(1000, { id ->
         seconds -=1
         def mapTicket = Transform.mapFromBodyJson(message.body())
