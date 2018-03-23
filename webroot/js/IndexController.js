@@ -116,6 +116,10 @@ var IndexController = (function(){
         $("#timeSpan").text(msg.seconds)
         if (msg.seconds === "0") {
           $("#snackbar").removeClass("show")
+          $("#buttonBuy").hide()
+          $("#buttonView").show()
+          $("#buttonCancel").hide()
+          $('#sel1').prop('disabled', false);
         }
       };
       varticleManagerSessionTime.consumer(`com.makingdevs.comunicate.time.session.${process}`, onSucces)
