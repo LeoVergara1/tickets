@@ -41,6 +41,7 @@ class ComunicateVerticle extends AbstractVerticle {
           println "Respuesta: ${reply.result().body()} "
           def response = Transform.mapFromBodyJson(reply.result().body())
           response.put("clientBuy","${jsonMap.processId}")
+          vertx.cancelTimer(jsonMap.idTimer.toLong())
           eb.publish("com.makingdevs.comunicate.info.buy.${reply.result().body().place}", response )
         }
       }
@@ -52,7 +53,9 @@ class ComunicateVerticle extends AbstractVerticle {
       map.put("place", map.ticket)
       map.put("client", map.deployMentId)
       eb.send("com.ticket.cancel", map)
+      vertx.cancelTimer(map.idTimer.toLong())
     }
+
     
   }
 
