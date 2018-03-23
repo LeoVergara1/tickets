@@ -112,6 +112,11 @@ var IndexController = (function(){
       var varticleManagerSessionTime = VerticleManager.getInstance();
       onSucces = (msg) => {
         console.log(msg)
+        $("#snackbar").addClass("show")
+        $("#timeSpan").text(msg.seconds)
+        if (msg.seconds === "0") {
+          $("#snackbar").removeClass("show")
+        }
       };
       varticleManagerSessionTime.consumer(`com.makingdevs.comunicate.time.session.${process}`, onSucces)
     };

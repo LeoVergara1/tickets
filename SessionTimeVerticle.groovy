@@ -24,6 +24,7 @@ class SessionTimeVerticle extends AbstractVerticle {
         if (seconds == 0){
           println "Se termino tu tiempo de sesión"
           eb.send("com.ticket.cancel", message.body())
+          eb.publish("com.makingdevs.comunicate.time.session.${mapTicket.processId}", mapTicket)
           vertx.cancelTimer(id)
 
         }
