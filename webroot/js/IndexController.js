@@ -2,7 +2,7 @@
 
 var IndexController = (function(){
   var varticleManagerSend 
-  var process = Math.floor((Math.random() * 10000) + 1);
+  var process = 1;
   var deployMentId
   var firtsTicket = "M1"
   var idTimer 
