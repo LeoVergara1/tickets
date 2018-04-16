@@ -20,6 +20,17 @@ var IndexController = (function(){
       viewTicket()
       selectPlace()
       sessionTime()
+
+
+      $("#buttonTest").on("click", ()=>{
+        console.log("click send")
+        varticleManagerSend.send("com.makingdevs.comunicate.send.test", "Hola servidor como estas")
+        let verticleConsumer = VerticleManager.getInstance()
+        var onSucces = (msg) =>{
+          console.log(msg)
+        }
+        verticleConsumer.consumer("com.makingdevs.comunicate.consumer.test", onSucces)
+      })
       
       
     };

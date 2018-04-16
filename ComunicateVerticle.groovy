@@ -56,7 +56,10 @@ class ComunicateVerticle extends AbstractVerticle {
       vertx.cancelTimer(map.idTimer.toLong())
     }
 
-    
+   eb.consumer("com.makingdevs.comunicate.send.test"){ message ->
+    println message.body()
+    eb.publish("com.makingdevs.comunicate.consumer.test", "Te regreso la respuesta")
+   } 
   }
 
   @Override

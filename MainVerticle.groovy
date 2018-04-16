@@ -1,13 +1,5 @@
 package com.makingdevs.ticket
-//@Grapes(
-//    [
-//    @Grab(group='io.vertx', module='vertx-core', version='3.5.1'),
-//    @Grab(group='io.vertx', module='vertx-web', version='3.5.1'),
-//    @Grab(group='io.vertx', module='vertx-ext', version='30', type='pom'),
-//    @Grab(group='io.vertx', module='vertx-shell', version='3.5.1'),
-//    @Grab(group='io.vertx', module='vertx-dropwizard-metrics', version='3.0.0-milestone6')
-//    ]
-//)
+
 import io.vertx.ext.web.handler.StaticHandler
 import io.vertx.ext.web.Router
 import io.vertx.core.Vertx
